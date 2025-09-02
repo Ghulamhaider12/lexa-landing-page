@@ -1,0 +1,191 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@300;400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0 0% 100%);
+  --foreground: hsl(210 25% 7.8431%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(210 25% 7.8431%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(210 25% 7.8431%);
+  --primary: hsl(174 70% 41%);
+  --primary-foreground: hsl(0 0% 100%);
+  --secondary: hsl(146 50% 36%);
+  --secondary-foreground: hsl(0 0% 100%);
+  --muted: hsl(210 40% 96%);
+  --muted-foreground: hsl(215.4 16.3% 46.9%);
+  --accent: hsl(174 50% 50%);
+  --accent-foreground: hsl(0 0% 100%);
+  --destructive: hsl(356.3033 90.5579% 54.3137%);
+  --destructive-foreground: hsl(0 0% 100%);
+  --border: hsl(214.3 31.8% 91.4%);
+  --input: hsl(200 23.0769% 97.4510%);
+  --ring: hsl(174 70% 41%);
+  --chart-1: hsl(174 70% 41%);
+  --chart-2: hsl(159.7826 100% 36.0784%);
+  --chart-3: hsl(42.0290 92.8251% 56.2745%);
+  --chart-4: hsl(147.1429 78.5047% 41.9608%);
+  --chart-5: hsl(341.4894 75.2000% 50.9804%);
+  --sidebar: hsl(0 0% 100%);
+  --sidebar-foreground: hsl(210 25% 7.8431%);
+  --sidebar-primary: hsl(174 70% 41%);
+  --sidebar-primary-foreground: hsl(0 0% 100%);
+  --sidebar-accent: hsl(174 50% 50%);
+  --sidebar-accent-foreground: hsl(0 0% 100%);
+  --sidebar-border: hsl(214.3 31.8% 91.4%);
+  --sidebar-ring: hsl(174 70% 41%);
+  --font-sans: 'Inter', 'Noto Sans Arabic', 'Noto Sans Devanagari', 'Noto Nastaliq Urdu', system-ui, sans-serif;
+  --font-serif: Georgia, serif;
+  --font-mono: Menlo, monospace;
+  --radius: 0.75rem;
+  --shadow-2xs: 0px 2px 0px 0px hsl(174 70% 41% / 0.05);
+  --shadow-xs: 0px 2px 0px 0px hsl(174 70% 41% / 0.05);
+  --shadow-sm: 0px 2px 0px 0px hsl(174 70% 41% / 0.05), 0px 1px 2px -1px hsl(174 70% 41% / 0.1);
+  --shadow: 0px 2px 0px 0px hsl(174 70% 41% / 0.05), 0px 1px 2px -1px hsl(174 70% 41% / 0.1);
+  --shadow-md: 0px 2px 0px 0px hsl(174 70% 41% / 0.05), 0px 2px 4px -1px hsl(174 70% 41% / 0.1);
+  --shadow-lg: 0px 2px 0px 0px hsl(174 70% 41% / 0.05), 0px 4px 6px -1px hsl(174 70% 41% / 0.1);
+  --shadow-xl: 0px 2px 0px 0px hsl(174 70% 41% / 0.05), 0px 8px 10px -1px hsl(174 70% 41% / 0.1);
+  --shadow-2xl: 0px 2px 0px 0px hsl(174 70% 41% / 0.05);
+}
+
+.dark {
+  --background: hsl(210 25% 7.8431%);
+  --foreground: hsl(0 0% 100%);
+  --card: hsl(210 20% 10%);
+  --card-foreground: hsl(0 0% 95%);
+  --popover: hsl(210 25% 7.8431%);
+  --popover-foreground: hsl(0 0% 100%);
+  --primary: hsl(174 70% 41%);
+  --primary-foreground: hsl(0 0% 100%);
+  --secondary: hsl(146 50% 36%);
+  --secondary-foreground: hsl(0 0% 100%);
+  --muted: hsl(210 20% 15%);
+  --muted-foreground: hsl(215.4 16.3% 60%);
+  --accent: hsl(174 50% 50%);
+  --accent-foreground: hsl(0 0% 100%);
+  --destructive: hsl(356.3033 90.5579% 54.3137%);
+  --destructive-foreground: hsl(0 0% 100%);
+  --border: hsl(210 20% 20%);
+  --input: hsl(210 20% 15%);
+  --ring: hsl(174 70% 41%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  .font-arabic {
+    font-family: 'Noto Sans Arabic', 'Inter', system-ui, sans-serif;
+  }
+
+  .font-urdu {
+    font-family: 'Noto Nastaliq Urdu', 'Inter', system-ui, sans-serif;
+  }
+
+  .font-hindi {
+    font-family: 'Noto Sans Devanagari', 'Inter', system-ui, sans-serif;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
+  }
+
+  .language-text {
+    font-size: inherit;
+    line-height: inherit;
+    transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+  }
+
+  .scroll-container {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .scroll-container::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(0px);
+  }
+  50% { 
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes glow {
+  from { 
+    box-shadow: 0 0 20px hsl(174 70% 41% / 0.3);
+  }
+  to { 
+    box-shadow: 0 0 30px hsl(174 70% 41% / 0.6);
+  }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(30px);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { 
+    opacity: 0;
+  }
+  to { 
+    opacity: 1;
+  }
+}
+
+@keyframes scroll {
+  0% { 
+    transform: translateX(0);
+  }
+  100% { 
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+}

@@ -1,0 +1,649 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lexa - AI-Powered Legal Innovation Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                borderRadius: {
+                    lg: "var(--radius)",
+                    md: "calc(var(--radius) - 2px)",
+                    sm: "calc(var(--radius) - 4px)",
+                },
+                colors: {
+                    background: "var(--background)",
+                    foreground: "var(--foreground)",
+                    card: {
+                        DEFAULT: "var(--card)",
+                        foreground: "var(--card-foreground)",
+                    },
+                    primary: {
+                        DEFAULT: "var(--primary)",
+                        foreground: "var(--primary-foreground)",
+                    },
+                    secondary: {
+                        DEFAULT: "var(--secondary)",
+                        foreground: "var(--secondary-foreground)",
+                    },
+                    muted: {
+                        DEFAULT: "var(--muted)",
+                        foreground: "var(--muted-foreground)",
+                    },
+                    accent: {
+                        DEFAULT: "var(--accent)",
+                        foreground: "var(--accent-foreground)",
+                    },
+                    border: "var(--border)",
+                    input: "var(--input)",
+                    ring: "var(--ring)",
+                },
+                fontFamily: {
+                    sans: ["Inter", "system-ui", "sans-serif"],
+                },
+                animation: {
+                    'float': 'float 6s ease-in-out infinite',
+                    'glow': 'glow 2s ease-in-out infinite alternate',
+                    'slide-up': 'slideUp 0.8s ease-out',
+                    'fade-in': 'fadeIn 1s ease-out',
+                    'typing': 'typing 3.5s steps(40, end), blink-caret .75s step-end infinite',
+                }
+            },
+        }
+    };
+    </script>
+    <style>
+        :root {
+            --background: hsl(210 40% 98%);
+            --foreground: hsl(210 40% 8%);
+            --card: hsl(210 40% 98%);
+            --card-foreground: hsl(210 40% 15%);
+            --primary: hsl(174 70% 41%);
+            --primary-foreground: hsl(0 0% 100%);
+            --secondary: hsl(174 43% 35%);
+            --secondary-foreground: hsl(0 0% 100%);
+            --muted: hsl(210 40% 96%);
+            --muted-foreground: hsl(210 40% 45%);
+            --accent: hsl(174 72% 56%);
+            --accent-foreground: hsl(210 40% 8%);
+            --border: hsl(210 40% 88%);
+            --input: hsl(210 40% 96%);
+            --ring: hsl(174 70% 41%);
+            --radius: 0.75rem;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 20px hsl(174 70% 41% / 0.4); }
+            to { box-shadow: 0 0 30px hsl(174 70% 41% / 0.8), 0 0 40px hsl(174 70% 41% / 0.4); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: hsl(174 70% 41%); }
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, hsl(174 70% 41% / 0.1) 0%, hsl(174 43% 35% / 0.05) 100%);
+        }
+
+        .typing-text {
+            overflow: hidden;
+            border-right: 3px solid hsl(174 70% 41%);
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+        }
+
+        .ai-screen {
+            background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 100%);
+            border: 1px solid hsl(174 70% 41% / 0.3);
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, hsl(174 70% 41%) 0%, hsl(174 72% 56%) 100%);
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/heroicons@2.0.18/24/outline/index.js" type="module"></script>
+</head>
+<body class="bg-background text-foreground font-sans">
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-50 glass-effect">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-xl">L</span>
+                    </div>
+                    <span class="text-2xl font-bold text-primary">Lexa</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#platform" class="text-muted-foreground hover:text-primary transition-colors">Platform</a>
+                    <a href="#features" class="text-muted-foreground hover:text-primary transition-colors">Features</a>
+                    <a href="#testimonials" class="text-muted-foreground hover:text-primary transition-colors">Testimonials</a>
+                    <a href="#faq" class="text-muted-foreground hover:text-primary transition-colors">FAQ</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="text-muted-foreground hover:text-primary transition-colors">Login</button>
+                    <button class="bg-primary text-primary-foreground px-6 py-2 rounded-lg hover:bg-primary/90 transition-colors">
+                        Request Demo
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 px-6 gradient-bg relative overflow-hidden">
+        <div class="container mx-auto text-center">
+            <div class="animate-slide-up">
+                <div class="flex items-center justify-center space-x-4 mb-6">
+                    <!-- Customer avatars - Ezra, Donald, Karim -->
+                    <img src="https://lexa.deployments.otherdev.com/avatars/avatar-1.png" alt="Customer avatar - Ezra" class="w-12 h-12 rounded-full border-2 border-primary">
+                    <img src="https://lexa.deployments.otherdev.com/avatars/avatar-2.png" alt="Customer avatar - Donald" class="w-12 h-12 rounded-full border-2 border-primary -ml-2">
+                    <img src="https://lexa.deployments.otherdev.com/avatars/avatar-3.png" alt="Customer avatar - Karim" class="w-12 h-12 rounded-full border-2 border-primary -ml-2">
+                    <span class="text-muted-foreground ml-4">Trusted by 1000's of legal professionals</span>
+                </div>
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 text-foreground">
+                    Professional
+                    <span class="text-primary block">Class AI</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-muted-foreground mb-8 max-w-4xl mx-auto leading-relaxed">
+                    Create, translate, sign, and manage contracts autonomously — powered by AI intelligence designed for SMEs and small law firms.
+                </p>
+                <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-6">
+                    <button class="bg-primary text-primary-foreground px-8 py-4 rounded-lg text-lg font-semibold hover:bg-primary/90 transition-all transform hover:scale-105 animate-glow">
+                        Request Demo
+                    </button>
+                    <button class="border-2 border-primary text-primary px-8 py-4 rounded-lg text-lg font-semibold hover:bg-primary hover:text-primary-foreground transition-all">
+                        Get Started for Free
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Floating Animation Elements -->
+        <div class="absolute top-20 left-10 w-6 h-6 bg-accent/20 rounded-full animate-float"></div>
+        <div class="absolute top-40 right-20 w-4 h-4 bg-primary/30 rounded-full animate-float" style="animation-delay: 1s;"></div>
+        <div class="absolute bottom-20 left-1/4 w-8 h-8 bg-secondary/20 rounded-full animate-float" style="animation-delay: 2s;"></div>
+    </section>
+
+    <!-- AI Demo Screens Section -->
+    <section class="py-20 px-6 bg-gradient-to-b from-background to-muted/20">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">AI-Powered Legal Innovation</h2>
+                <p class="text-xl text-muted-foreground max-w-3xl mx-auto">
+                    Watch Lexa transform complex legal workflows with intelligent automation
+                </p>
+            </div>
+
+            <!-- Harvey.ai-style animated screens -->
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <div class="ai-screen rounded-2xl p-8 text-white relative overflow-hidden">
+                        <div class="flex items-center space-x-3 mb-6">
+                            <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                            <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                            <span class="text-sm text-gray-400 ml-auto">AI Contract Assistant</span>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="text-accent text-sm font-mono">ANALYZING CONTRACT...</div>
+                            <div class="h-2 bg-gray-700 rounded-full overflow-hidden">
+                                <div class="progress-bar h-full rounded-full w-3/4 animate-pulse"></div>
+                            </div>
+                            <div class="typing-text text-sm">
+                                "This employment agreement contains 3 potential risks..."
+                            </div>
+                        </div>
+                        <!-- Animated glow effect -->
+                        <div class="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 opacity-50 animate-pulse"></div>
+                    </div>
+
+                    <div class="ai-screen rounded-2xl p-8 text-white">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-accent text-sm font-mono">LEGAL RESEARCH</span>
+                            <span class="text-green-400 text-xs">● ACTIVE</span>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="text-sm">Query: "Compliance requirements for cross-border contracts"</div>
+                            <div class="text-xs text-gray-400">Searching 200K+ legal documents...</div>
+                            <div class="flex space-x-2">
+                                <div class="w-2 h-2 bg-primary rounded-full animate-bounce"></div>
+                                <div class="w-2 h-2 bg-primary rounded-full animate-bounce" style="animation-delay: 0.1s;"></div>
+                                <div class="w-2 h-2 bg-primary rounded-full animate-bounce" style="animation-delay: 0.2s;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-8">
+                    <div class="glass-effect rounded-2xl p-8">
+                        <h3 class="text-2xl font-bold mb-4 text-primary">24/7 AI Legal Support</h3>
+                        <p class="text-muted-foreground mb-6">
+                            Our advanced AI operates 24/7, providing immediate legal assistance when traditional legal services are unavailable.
+                        </p>
+                        <ul class="space-y-3">
+                            <li class="flex items-center space-x-3">
+                                <div class="w-2 h-2 bg-primary rounded-full"></div>
+                                <span>24/7 AI Legal Support</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <div class="w-2 h-2 bg-primary rounded-full"></div>
+                                <span>Multi-Language Contracts</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <div class="w-2 h-2 bg-primary rounded-full"></div>
+                                <span>Regional Compliance Engine</span>
+                            </li>
+                            <li class="flex items-center space-x-3">
+                                <div class="w-2 h-2 bg-primary rounded-full"></div>
+                                <span>Cross-Border Templates</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="ai-screen rounded-2xl p-8 text-white">
+                        <div class="text-accent text-sm font-mono mb-4">DOCUMENT GENERATION</div>
+                        <div class="space-y-2">
+                            <div class="text-sm">Generating NDA template...</div>
+                            <div class="text-xs text-green-400">✓ Legal compliance check passed</div>
+                            <div class="text-xs text-green-400">✓ Jurisdiction verification complete</div>
+                            <div class="text-xs text-yellow-400">⏳ Formatting document...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company Logos Carousel -->
+    <section class="py-16 px-6 bg-muted/20">
+        <div class="container mx-auto">
+            <div class="text-center mb-12">
+                <h3 class="text-2xl font-bold mb-4">Join 4,000+ companies already growing</h3>
+            </div>
+            <div class="relative overflow-hidden">
+                <div class="flex animate-pulse space-x-12 items-center justify-center">
+                    <!-- Google Cloud -->
+                    <img src="https://lexa.deployments.otherdev.com/company-logos/google-cloud-3-transparent.webp" alt="Google Cloud" class="h-12 opacity-60 hover:opacity-100 transition-opacity">
+                    <!-- Microsoft -->
+                    <img src="https://lexa.deployments.otherdev.com/company-logos/microsoft-8-transparent.webp" alt="Microsoft" class="h-12 opacity-60 hover:opacity-100 transition-opacity">
+                    <!-- Bahria University -->
+                    <img src="https://lexa.deployments.otherdev.com/company-logos/bahria-university-flat-transparent.webp" alt="Bahria University" class="h-12 opacity-60 hover:opacity-100 transition-opacity">
+                    <!-- Sindh Bar Council -->
+                    <img src="https://lexa.deployments.otherdev.com/company-logos/sindh-bar-council-transparent.webp" alt="Sindh Bar Council" class="h-12 opacity-60 hover:opacity-100 transition-opacity">
+                    <!-- Karachi Bar -->
+                    <img src="https://lexa.deployments.otherdev.com/company-logos/karachi-bar-transparent.webp" alt="Karachi Bar" class="h-12 opacity-60 hover:opacity-100 transition-opacity">
+                    <!-- MITE -->
+                    <img src="https://lexa.deployments.otherdev.com/company-logos/logo-mite-resized.webp" alt="MITE" class="h-12 opacity-60 hover:opacity-100 transition-opacity">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 px-6">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Supercharge Team Productivity</h2>
+                <p class="text-xl text-muted-foreground max-w-3xl mx-auto">
+                    Keep your team focused and productive as they collaborate on building and shipping products swiftly.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="group glass-effect rounded-2xl p-8 hover:shadow-xl transition-all transform hover:-translate-y-2">
+                    <div class="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">AI-Powered Contract Creation</h3>
+                    <p class="text-muted-foreground">
+                        Craft binding legal documents instantly using pre-designed templates and smart prompts tailored for your jurisdiction.
+                    </p>
+                </div>
+
+                <div class="group glass-effect rounded-2xl p-8 hover:shadow-xl transition-all transform hover:-translate-y-2">
+                    <div class="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Form-Based Drafting</h3>
+                    <p class="text-muted-foreground">
+                        Upload any contract template, and Lexa turns it into a guided, fillable form—no legal expertise needed.
+                    </p>
+                </div>
+
+                <div class="group glass-effect rounded-2xl p-8 hover:shadow-xl transition-all transform hover:-translate-y-2">
+                    <div class="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Live Translation & Jargon Decoder</h3>
+                    <p class="text-muted-foreground">
+                        Translate entire contracts in real-time and get clear, plain-English explanations of complex legal terms.
+                    </p>
+                </div>
+
+                <div class="group glass-effect rounded-2xl p-8 hover:shadow-xl transition-all transform hover:-translate-y-2">
+                    <div class="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Secure E-Signing & Sharing</h3>
+                    <p class="text-muted-foreground">
+                        E-sign documents swiftly and share them securely with built-in encryption, audit logs, and file tracking.
+                    </p>
+                </div>
+
+                <div class="group glass-effect rounded-2xl p-8 hover:shadow-xl transition-all transform hover:-translate-y-2">
+                    <div class="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Voice & Meeting Intelligence</h3>
+                    <p class="text-muted-foreground">
+                        Lexa listens in on negotiations, provides real-time legal advice, flags risks, and suggests clauses live.
+                    </p>
+                </div>
+
+                <div class="group glass-effect rounded-2xl p-8 hover:shadow-xl transition-all transform hover:-translate-y-2">
+                    <div class="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Compliance & Risk Dashboard</h3>
+                    <p class="text-muted-foreground">
+                        Stay ahead of liabilities with automated compliance checks, risk alerts, and renewal reminders.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-20 px-6 bg-gradient-to-b from-muted/20 to-background">
+        <div class="container mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">What our clients say</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="glass-effect rounded-2xl p-8 hover:shadow-xl transition-all transform hover:-translate-y-2">
+                    <p class="text-muted-foreground mb-6 italic">
+                        "Lexa has been a game-changer for my legal practice. Its AI-powered insights and extensive database of judgments have saved me countless hours of research, allowing me to focus more on client needs. Highly recommend!"
+                    </p>
+                    <div class="flex items-center space-x-4">
+                        <img src="https://lexa.deployments.otherdev.com/avatars/avatar-1.png" alt="Arslana Nawaz" class="w-12 h-12 rounded-full">
+                        <div>
+                            <div class="font-semibold">Arslana Nawaz</div>
+                            <div class="text-sm text-muted-foreground">Adv. High Court, PinPoint</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-effect rounded-2xl p-8 hover:shadow-xl transition-all transform hover:-translate-y-2">
+                    <p class="text-muted-foreground mb-6 italic">
+                        "As a law student, Lexa's MCQ platform has been invaluable in preparing for exams. It's like having a personal tutor guiding me through the complexities of legal principles. A must-have for anyone serious about their legal studies."
+                    </p>
+                    <div class="flex items-center space-x-4">
+                        <img src="https://lexa.deployments.otherdev.com/avatars/avatar-2.png" alt="Adeel Nawaz" class="w-12 h-12 rounded-full">
+                        <div>
+                            <div class="font-semibold">Adeel Nawaz</div>
+                            <div class="text-sm text-muted-foreground">Law Student, Hues</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-effect rounded-2xl p-8 hover:shadow-xl transition-all transform hover:-translate-y-2">
+                    <p class="text-muted-foreground mb-6 italic">
+                        "Lexa's drafting feature is a lifesaver in my hectic schedule. It streamlines the process of creating legal documents, ensuring accuracy and compliance. Couldn't imagine managing my caseload without it."
+                    </p>
+                    <div class="flex items-center space-x-4">
+                        <img src="https://lexa.deployments.otherdev.com/avatars/avatar-7.png" alt="Zara Ahmed" class="w-12 h-12 rounded-full">
+                        <div>
+                            <div class="font-semibold">Zara Ahmed</div>
+                            <div class="text-sm text-muted-foreground">Legal Consultant, Greenish</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-20 px-6">
+        <div class="container mx-auto max-w-4xl">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Frequently Asked Questions</h2>
+                <p class="text-xl text-muted-foreground">
+                    Advice and answers from our team.
+                </p>
+            </div>
+
+            <div class="space-y-6">
+                <div class="glass-effect rounded-xl p-6 cursor-pointer hover:shadow-lg transition-all" onclick="toggleFAQ(this)">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-semibold">What industries can benefit from your AI solutions?</h3>
+                        <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="hidden mt-4 text-muted-foreground">
+                        Our AI solutions are applicable across various industries, including healthcare, finance, retail, and manufacturing, with specialized focus on legal services and SMEs.
+                    </div>
+                </div>
+
+                <div class="glass-effect rounded-xl p-6 cursor-pointer hover:shadow-lg transition-all" onclick="toggleFAQ(this)">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-semibold">How do you ensure data privacy and security?</h3>
+                        <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="hidden mt-4 text-muted-foreground">
+                        We adhere to strict data privacy regulations and implement robust security measures including end-to-end encryption, secure file storage, and compliance with global security standards to protect sensitive information.
+                    </div>
+                </div>
+
+                <div class="glass-effect rounded-xl p-6 cursor-pointer hover:shadow-lg transition-all" onclick="toggleFAQ(this)">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-semibold">Can your AI solutions be customized to fit specific business needs?</h3>
+                        <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="hidden mt-4 text-muted-foreground">
+                        Absolutely! Our platform offers customizable workflows, jurisdiction-specific templates, and domain-specific AI agents that can be tailored to your firm's unique requirements and processes.
+                    </div>
+                </div>
+
+                <div class="glass-effect rounded-xl p-6 cursor-pointer hover:shadow-lg transition-all" onclick="toggleFAQ(this)">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-semibold">How can I get started with your AI solutions?</h3>
+                        <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    <div class="hidden mt-4 text-muted-foreground">
+                        Simply reach out to our team to schedule a consultation and explore how our AI solutions can benefit your business. We offer personalized demos and free trial periods to get you started.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 px-6 gradient-bg">
+        <div class="container mx-auto text-center">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Request a Demo</h2>
+                <p class="text-xl text-muted-foreground mb-8">
+                    Get a personalized demo of Lexa and see how it can transform your legal workflow.
+                </p>
+                
+                <div class="glass-effect rounded-2xl p-8 max-w-md mx-auto">
+                    <form class="space-y-4">
+                        <input type="text" placeholder="Your Name" class="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all">
+                        <input type="email" placeholder="Your Email" class="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all">
+                        <input type="text" placeholder="Company Name" class="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all">
+                        <button type="submit" class="w-full bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors">
+                            Request Demo
+                        </button>
+                    </form>
+                    <p class="text-sm text-muted-foreground mt-4">
+                        No spam. We'll only send you updates about Lexa.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 px-6 bg-foreground text-background">
+        <div class="container mx-auto">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-xl">L</span>
+                        </div>
+                        <span class="text-2xl font-bold text-primary">Lexa</span>
+                    </div>
+                    <p class="text-background/70">
+                        AI-powered legal innovation for the modern law firm.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Platform</h4>
+                    <ul class="space-y-2 text-background/70">
+                        <li><a href="#" class="hover:text-primary transition-colors">Assistant</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Knowledge</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Vault</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Workflows</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Solutions</h4>
+                    <ul class="space-y-2 text-background/70">
+                        <li><a href="#" class="hover:text-primary transition-colors">Contract Drafting</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Legal Research</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Document Review</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Compliance</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2 text-background/70">
+                        <li><a href="#" class="hover:text-primary transition-colors">About</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Careers</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Security</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-background/20 mt-12 pt-8 text-center text-background/70">
+                <p>&copy; 2024 Lexa. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Toggle Function
+        function toggleFAQ(element) {
+            const content = element.querySelector('div:last-child');
+            const arrow = element.querySelector('svg');
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                arrow.style.transform = 'rotate(180deg)';
+            } else {
+                content.classList.add('hidden');
+                arrow.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = '0s';
+                    entry.target.classList.add('animate-slide-up');
+                }
+            });
+        }, observerOptions);
+
+        // Observe feature cards and other elements
+        document.querySelectorAll('.glass-effect, .ai-screen').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Form submission (placeholder)
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // TODO: Implement form submission logic
+            alert('Thank you for your interest! We will contact you soon.');
+        });
+    </script>
+</body>
+</html>

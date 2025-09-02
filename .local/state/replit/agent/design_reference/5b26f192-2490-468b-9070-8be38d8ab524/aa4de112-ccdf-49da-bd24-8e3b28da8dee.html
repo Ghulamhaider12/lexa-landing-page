@@ -1,0 +1,826 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lexa - AI-Powered Legal Intelligence Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                borderRadius: {
+                    lg: "var(--radius)",
+                    md: "calc(var(--radius) - 2px)",
+                    sm: "calc(var(--radius) - 4px)",
+                },
+                colors: {
+                    background: "var(--background)",
+                    foreground: "var(--foreground)",
+                    card: {
+                        DEFAULT: "var(--card)",
+                        foreground: "var(--card-foreground)",
+                    },
+                    primary: {
+                        DEFAULT: "var(--primary)",
+                        foreground: "var(--primary-foreground)",
+                    },
+                    secondary: {
+                        DEFAULT: "var(--secondary)",
+                        foreground: "var(--secondary-foreground)",
+                    },
+                    muted: {
+                        DEFAULT: "var(--muted)",
+                        foreground: "var(--muted-foreground)",
+                    },
+                    accent: {
+                        DEFAULT: "var(--accent)",
+                        foreground: "var(--accent-foreground)",
+                    },
+                    border: "var(--border)",
+                    ring: "var(--ring)",
+                },
+                fontFamily: {
+                    sans: ["Inter", "sans-serif"],
+                }
+            },
+        }
+    };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --background: hsl(0 0% 100%);
+            --foreground: hsl(220 13% 13%);
+            --card: hsl(0 0% 100%);
+            --card-foreground: hsl(220 13% 13%);
+            --primary: hsl(174 70% 41%);
+            --primary-foreground: hsl(0 0% 100%);
+            --secondary: hsl(174 44% 25%);
+            --secondary-foreground: hsl(0 0% 100%);
+            --muted: hsl(210 40% 96%);
+            --muted-foreground: hsl(215 16% 47%);
+            --accent: hsl(174 78% 64%);
+            --accent-foreground: hsl(220 13% 13%);
+            --border: hsl(214 32% 91%);
+            --ring: hsl(174 70% 41%);
+            --radius: 0.75rem;
+        }
+
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .animate-slide-up {
+            animation: slideUp 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .scroll-smooth {
+            scroll-behavior: smooth;
+        }
+
+        .gradient-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+        }
+
+        .gradient-secondary {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+        }
+
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(32, 178, 170, 0.15);
+        }
+
+        .logo-scroll {
+            animation: scroll 30s linear infinite;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground font-sans scroll-smooth">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                        <i class="fas fa-scale-balanced text-white text-sm"></i>
+                    </div>
+                    <span class="text-xl font-bold">Lexa</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="text-muted-foreground hover:text-primary transition-colors">Features</a>
+                    <a href="#dashboard" class="text-muted-foreground hover:text-primary transition-colors">Platform</a>
+                    <a href="#testimonials" class="text-muted-foreground hover:text-primary transition-colors">Testimonials</a>
+                    <a href="#faq" class="text-muted-foreground hover:text-primary transition-colors">FAQ</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="text-muted-foreground hover:text-primary transition-colors">Login</button>
+                    <button class="gradient-primary text-primary-foreground px-4 py-2 rounded-lg hover:opacity-90 transition-opacity">
+                        Get Started
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center animate-fade-in">
+                <div class="flex justify-center mb-6">
+                    <div class="flex items-center space-x-2 bg-accent/10 px-4 py-2 rounded-full">
+                        <div class="flex -space-x-2">
+                            <!-- Professional avatars showing trust indicators -->
+                            <img src="https://lexa.deployments.otherdev.com/avatars/avatar-1.png" alt="Customer avatar - Ezra" class="w-6 h-6 rounded-full border-2 border-background">
+                            <img src="https://lexa.deployments.otherdev.com/avatars/avatar-2.png" alt="Customer avatar - Donald" class="w-6 h-6 rounded-full border-2 border-background">
+                            <img src="https://lexa.deployments.otherdev.com/avatars/avatar-3.png" alt="Customer avatar - Karim" class="w-6 h-6 rounded-full border-2 border-background">
+                        </div>
+                        <span class="text-sm font-medium text-accent-foreground">Trusted by 1000's of legal professionals</span>
+                    </div>
+                </div>
+                <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                    <span class="block">Draft, Share and Store</span>
+                    <span class="block gradient-primary bg-clip-text text-transparent">your contracts in English</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
+                    Create, translate, sign, and manage contracts autonomously — powered by AI intelligence designed for SMEs and small law firms.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <button class="gradient-primary text-primary-foreground px-8 py-4 rounded-lg text-lg font-semibold hover:opacity-90 transition-all hover-lift">
+                        <i class="fas fa-rocket mr-2"></i>
+                        Get Started for Free
+                    </button>
+                    <button class="border border-border text-foreground px-8 py-4 rounded-lg text-lg font-semibold hover:bg-muted transition-all hover-lift">
+                        <i class="fas fa-play mr-2"></i>
+                        Request Demo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company Logos Carousel -->
+    <section class="py-12 border-b border-border overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-muted-foreground mb-8 font-medium">Join 4,000+ companies already growing</p>
+            <div class="relative">
+                <div class="flex logo-scroll">
+                    <div class="flex items-center space-x-12 flex-shrink-0">
+                        <!-- Modern legal institution and tech company logos with proper spacing -->
+                        <img src="https://lexa.deployments.otherdev.com/company-logos/google-cloud-3-transparent.webp" alt="Google Cloud" class="h-8 opacity-60 hover:opacity-100 transition-opacity">
+                        <img src="https://lexa.deployments.otherdev.com/company-logos/microsoft-8-transparent.webp" alt="Microsoft" class="h-8 opacity-60 hover:opacity-100 transition-opacity">
+                        <img src="https://lexa.deployments.otherdev.com/company-logos/bahria-university-flat-transparent.webp" alt="Bahria University" class="h-8 opacity-60 hover:opacity-100 transition-opacity">
+                        <img src="https://lexa.deployments.otherdev.com/company-logos/university-central-punjab-transparent.webp" alt="University of Central Punjab" class="h-8 opacity-60 hover:opacity-100 transition-opacity">
+                        <img src="https://lexa.deployments.otherdev.com/company-logos/sindh-bar-council-transparent.webp" alt="Sindh Bar Council" class="h-8 opacity-60 hover:opacity-100 transition-opacity">
+                        <img src="https://lexa.deployments.otherdev.com/company-logos/karachi-bar-transparent.webp" alt="Karachi Bar" class="h-8 opacity-60 hover:opacity-100 transition-opacity">
+                    </div>
+                    <div class="flex items-center space-x-12 flex-shrink-0">
+                        <img src="https://lexa.deployments.otherdev.com/company-logos/law-student-council-transparent.webp" alt="Law Student Council" class="h-8 opacity-60 hover:opacity-100 transition-opacity">
+                        <img src="https://lexa.deployments.otherdev.com/company-logos/logo-mite-resized.webp" alt="MITE" class="h-8 opacity-60 hover:opacity-100 transition-opacity">
+                        <img src="https://lexa.deployments.otherdev.com/company-logos/google-cloud-3-transparent.webp" alt="Google Cloud" class="h-8 opacity-60 hover:opacity-100 transition-opacity">
+                        <img src="https://lexa.deployments.otherdev.com/company-logos/microsoft-8-transparent.webp" alt="Microsoft" class="h-8 opacity-60 hover:opacity-100 transition-opacity">
+                        <img src="https://lexa.deployments.otherdev.com/company-logos/bahria-university-flat-transparent.webp" alt="Bahria University" class="h-8 opacity-60 hover:opacity-100 transition-opacity">
+                        <img src="https://lexa.deployments.otherdev.com/company-logos/university-central-punjab-transparent.webp" alt="University of Central Punjab" class="h-8 opacity-60 hover:opacity-100 transition-opacity">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Recreation -->
+    <section id="dashboard" class="py-20 px-4 sm:px-6 lg:px-8 bg-muted/30">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 animate-slide-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Professional Class AI Platform</h2>
+                <p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+                    Experience the power of AI-driven legal intelligence with our intuitive dashboard
+                </p>
+            </div>
+            
+            <!-- Dashboard Mockup -->
+            <div class="bg-white rounded-2xl shadow-2xl overflow-hidden animate-slide-up max-w-5xl mx-auto">
+                <!-- Dashboard Header -->
+                <div class="gradient-primary p-6 text-white">
+                    <h3 class="text-2xl font-bold mb-2">Welcome back</h3>
+                    <p class="opacity-90">Manage your legal documents with AI assistance</p>
+                </div>
+                
+                <!-- View Toggle -->
+                <div class="p-6 border-b border-border">
+                    <div class="flex items-center space-x-4">
+                        <button class="bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm font-medium flex items-center space-x-2">
+                            <i class="fas fa-th-large"></i>
+                            <span>Grid</span>
+                        </button>
+                        <button class="text-muted-foreground px-4 py-2 rounded-lg text-sm font-medium flex items-center space-x-2 hover:bg-muted transition-colors">
+                            <i class="fas fa-list"></i>
+                            <span>List</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quick Access Section -->
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h4 class="text-lg font-semibold">Quick Access</h4>
+                        <button class="text-primary text-sm font-medium hover:underline">
+                            View all <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                        <!-- Contracts Card -->
+                        <div class="bg-card border border-border rounded-xl p-4 hover-lift cursor-pointer group">
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-3 group-hover:bg-blue-200 transition-colors">
+                                <i class="fas fa-file-contract text-blue-600 text-xl"></i>
+                            </div>
+                            <h5 class="font-semibold text-sm mb-1">Contracts</h5>
+                            <p class="text-xs text-muted-foreground mb-1">Active</p>
+                            <p class="text-xs text-muted-foreground">24 files</p>
+                        </div>
+
+                        <!-- Case Files Card -->
+                        <div class="bg-card border border-border rounded-xl p-4 hover-lift cursor-pointer group">
+                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-3 group-hover:bg-green-200 transition-colors">
+                                <i class="fas fa-folder-open text-green-600 text-xl"></i>
+                            </div>
+                            <h5 class="font-semibold text-sm mb-1">Case Files</h5>
+                            <p class="text-xs text-muted-foreground mb-1">Active</p>
+                            <p class="text-xs text-muted-foreground">18 files</p>
+                        </div>
+
+                        <!-- Legal Briefs Card -->
+                        <div class="bg-card border border-border rounded-xl p-4 hover-lift cursor-pointer group">
+                            <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-3 group-hover:bg-yellow-200 transition-colors">
+                                <i class="fas fa-file-alt text-yellow-600 text-xl"></i>
+                            </div>
+                            <h5 class="font-semibold text-sm mb-1">Legal Briefs</h5>
+                            <p class="text-xs text-muted-foreground mb-1">Drafts</p>
+                            <p class="text-xs text-muted-foreground">12 files</p>
+                        </div>
+
+                        <!-- Client Docs Card -->
+                        <div class="bg-card border border-border rounded-xl p-4 hover-lift cursor-pointer group">
+                            <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-3 group-hover:bg-red-200 transition-colors">
+                                <i class="fas fa-users text-red-600 text-xl"></i>
+                            </div>
+                            <h5 class="font-semibold text-sm mb-1">Client Docs</h5>
+                            <p class="text-xs text-muted-foreground mb-1">Confidential</p>
+                            <p class="text-xs text-muted-foreground">36 files</p>
+                        </div>
+
+                        <!-- AI Analysis Card -->
+                        <div class="bg-card border border-border rounded-xl p-4 hover-lift cursor-pointer group">
+                            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-3 group-hover:bg-purple-200 transition-colors">
+                                <i class="fas fa-brain text-purple-600 text-xl"></i>
+                            </div>
+                            <h5 class="font-semibold text-sm mb-1">AI Analysis</h5>
+                            <p class="text-xs text-muted-foreground mb-1">Reports</p>
+                            <p class="text-xs text-muted-foreground">8 files</p>
+                        </div>
+
+                        <!-- Templates Card -->
+                        <div class="bg-card border border-border rounded-xl p-4 hover-lift cursor-pointer group">
+                            <div class="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mb-3 group-hover:bg-teal-200 transition-colors">
+                                <i class="fas fa-file-copy text-teal-600 text-xl"></i>
+                            </div>
+                            <h5 class="font-semibold text-sm mb-1">Templates</h5>
+                            <p class="text-xs text-muted-foreground mb-1">Legal Forms</p>
+                            <p class="text-xs text-muted-foreground">15 files</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity Section -->
+                <div class="p-6 border-t border-border">
+                    <div class="flex items-center justify-between mb-6">
+                        <h4 class="text-lg font-semibold">Recent Activity</h4>
+                        <button class="text-primary text-sm font-medium hover:underline">
+                            View all <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="text-left text-sm text-muted-foreground border-b border-border">
+                                    <th class="pb-3 font-medium">Document</th>
+                                    <th class="pb-3 font-medium">Reason</th>
+                                    <th class="pb-3 font-medium">Owner</th>
+                                    <th class="pb-3 font-medium">Location</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm">
+                                <tr class="border-b border-border hover:bg-muted/50 transition-colors">
+                                    <td class="py-4">
+                                        <div class="flex items-center space-x-3">
+                                            <i class="fas fa-file-pdf text-red-500"></i>
+                                            <div>
+                                                <p class="font-medium">Contract_Amendment_2024.pdf</p>
+                                                <p class="text-xs text-muted-foreground">2 hours ago</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-4">
+                                        <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">Recently accessed</span>
+                                    </td>
+                                    <td class="py-4 text-muted-foreground">John Smith</td>
+                                    <td class="py-4 text-muted-foreground">Contracts</td>
+                                </tr>
+                                <tr class="hover:bg-muted/50 transition-colors">
+                                    <td class="py-4">
+                                        <div class="flex items-center space-x-3">
+                                            <i class="fas fa-file-word text-blue-500"></i>
+                                            <div>
+                                                <p class="font-medium">Case_Brief_Johnson_vs_State.docx</p>
+                                                <p class="text-xs text-muted-foreground">1 day ago</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-4">
+                                        <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Shared with you</span>
+                                    </td>
+                                    <td class="py-4 text-muted-foreground">Sarah Wilson</td>
+                                    <td class="py-4 text-muted-foreground">Case Files</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 animate-slide-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Supercharge Your Legal Workflow</h2>
+                <p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+                    Advanced AI capabilities designed specifically for legal professionals
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 24/7 AI Support Feature -->
+                <div class="bg-card border border-border rounded-xl p-8 hover-lift animate-slide-up">
+                    <div class="w-16 h-16 gradient-primary rounded-xl flex items-center justify-center mb-6 animate-float">
+                        <i class="fas fa-clock text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">24/7 AI Legal Support</h3>
+                    <p class="text-muted-foreground mb-6">
+                        Our advanced AI operates around the clock, providing immediate legal assistance when traditional services are unavailable.
+                    </p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-check text-primary w-4"></i>
+                            <span>24/7 AI Legal Support</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-check text-primary w-4"></i>
+                            <span>Multi-Language Contracts</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-check text-primary w-4"></i>
+                            <span>Regional Compliance Engine</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-check text-primary w-4"></i>
+                            <span>Cross-Border Templates</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Secure Vault Feature -->
+                <div class="bg-card border border-border rounded-xl p-8 hover-lift animate-slide-up">
+                    <div class="w-16 h-16 gradient-secondary rounded-xl flex items-center justify-center mb-6 animate-float" style="animation-delay: 0.2s;">
+                        <i class="fas fa-shield-alt text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Secure Vault Management</h3>
+                    <p class="text-muted-foreground mb-6">
+                        Bank-level encryption with granular access controls and comprehensive version history for all your legal documents.
+                    </p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-check text-primary w-4"></i>
+                            <span>End-to-end encryption</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-check text-primary w-4"></i>
+                            <span>Secure file sharing and storage</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-check text-primary w-4"></i>
+                            <span>Global security compliance</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- E-Signing Feature -->
+                <div class="bg-card border border-border rounded-xl p-8 hover-lift animate-slide-up">
+                    <div class="w-16 h-16 gradient-primary rounded-xl flex items-center justify-center mb-6 animate-float" style="animation-delay: 0.4s;">
+                        <i class="fas fa-signature text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Advanced E-Signing</h3>
+                    <p class="text-muted-foreground mb-6">
+                        Legally binding signatures across multiple jurisdictions with biometric verification and tamper-proof audit trails.
+                    </p>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-check text-primary w-4"></i>
+                            <span>Multi-party signing workflows</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-check text-primary w-4"></i>
+                            <span>Legal validity in 30+ jurisdictions</span>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="fas fa-check text-primary w-4"></i>
+                            <span>Automated signature reminders</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- AI Contract Creation -->
+                <div class="bg-card border border-border rounded-xl p-8 hover-lift animate-slide-up">
+                    <div class="w-16 h-16 gradient-secondary rounded-xl flex items-center justify-center mb-6 animate-float" style="animation-delay: 0.6s;">
+                        <i class="fas fa-robot text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">AI-Powered Contract Creation</h3>
+                    <p class="text-muted-foreground">
+                        Craft binding legal documents instantly using pre-designed templates and smart prompts tailored for your jurisdiction.
+                    </p>
+                </div>
+
+                <!-- Legal Research -->
+                <div class="bg-card border border-border rounded-xl p-8 hover-lift animate-slide-up">
+                    <div class="w-16 h-16 gradient-primary rounded-xl flex items-center justify-center mb-6 animate-float" style="animation-delay: 0.8s;">
+                        <i class="fas fa-search text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Legal Research & Library</h3>
+                    <p class="text-muted-foreground">
+                        Access over 200K digitized judgments and 10K+ legal documents instantly to inform your drafting and review process.
+                    </p>
+                </div>
+
+                <!-- Compliance Dashboard -->
+                <div class="bg-card border border-border rounded-xl p-8 hover-lift animate-slide-up">
+                    <div class="w-16 h-16 gradient-secondary rounded-xl flex items-center justify-center mb-6 animate-float" style="animation-delay: 1s;">
+                        <i class="fas fa-chart-line text-white text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Compliance & Risk Dashboard</h3>
+                    <p class="text-muted-foreground">
+                        Stay ahead of liabilities with automated compliance checks, risk alerts, and renewal reminders.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-20 px-4 sm:px-6 lg:px-8 bg-muted/30">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 animate-slide-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">What our clients say</h2>
+                <p class="text-xl text-muted-foreground">
+                    Trusted by legal professionals across Asia and the Middle East
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-card border border-border rounded-xl p-8 hover-lift animate-slide-up">
+                    <div class="flex items-center mb-4">
+                        <img src="https://lexa.deployments.otherdev.com/avatars/avatar-1.png" alt="Arslana Nawaz" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-semibold">Arslana Nawaz</h4>
+                            <p class="text-sm text-muted-foreground">Adv. High Court, PinPoint</p>
+                        </div>
+                    </div>
+                    <p class="text-muted-foreground mb-4">
+                        "Lexa has been a game-changer for my legal practice. Its AI-powered insights and extensive database of judgments have saved me countless hours of research."
+                    </p>
+                    <div class="flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="bg-card border border-border rounded-xl p-8 hover-lift animate-slide-up">
+                    <div class="flex items-center mb-4">
+                        <img src="https://lexa.deployments.otherdev.com/avatars/avatar-2.png" alt="Adeel Nawaz" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-semibold">Adeel Nawaz</h4>
+                            <p class="text-sm text-muted-foreground">Law Student, Hues</p>
+                        </div>
+                    </div>
+                    <p class="text-muted-foreground mb-4">
+                        "As a law student, Lexa's MCQ platform has been invaluable in preparing for exams. It's like having a personal tutor guiding me through legal complexities."
+                    </p>
+                    <div class="flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="bg-card border border-border rounded-xl p-8 hover-lift animate-slide-up">
+                    <div class="flex items-center mb-4">
+                        <img src="https://lexa.deployments.otherdev.com/avatars/avatar-7.png" alt="Zara Ahmed" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-semibold">Zara Ahmed</h4>
+                            <p class="text-sm text-muted-foreground">Legal Consultant, Greenish</p>
+                        </div>
+                    </div>
+                    <p class="text-muted-foreground mb-4">
+                        "Lexa's drafting feature is a lifesaver in my hectic schedule. It streamlines the process of creating legal documents with accuracy and compliance."
+                    </p>
+                    <div class="flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16 animate-slide-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
+                <p class="text-xl text-muted-foreground">
+                    Get answers to common questions about Lexa
+                </p>
+            </div>
+            
+            <div class="space-y-6">
+                <!-- FAQ Item 1 -->
+                <div class="bg-card border border-border rounded-xl p-6 hover-lift animate-slide-up">
+                    <button class="w-full text-left flex items-center justify-between" onclick="toggleFAQ(this)">
+                        <h3 class="text-lg font-semibold">What industries can benefit from Lexa's AI solutions?</h3>
+                        <i class="fas fa-chevron-down transition-transform"></i>
+                    </button>
+                    <div class="mt-4 text-muted-foreground hidden">
+                        <p>Lexa is designed specifically for legal professionals, law firms, SMEs, and corporate legal departments. Our AI solutions are particularly beneficial for contract law, litigation support, compliance management, and legal research across various jurisdictions.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="bg-card border border-border rounded-xl p-6 hover-lift animate-slide-up">
+                    <button class="w-full text-left flex items-center justify-between" onclick="toggleFAQ(this)">
+                        <h3 class="text-lg font-semibold">How do you ensure data privacy and security?</h3>
+                        <i class="fas fa-chevron-down transition-transform"></i>
+                    </button>
+                    <div class="mt-4 text-muted-foreground hidden">
+                        <p>We implement bank-level encryption, end-to-end security protocols, and comply with global data protection regulations including GDPR. Your legal documents are stored in secure, geographically distributed data centers with granular access controls and comprehensive audit trails.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="bg-card border border-border rounded-xl p-6 hover-lift animate-slide-up">
+                    <button class="w-full text-left flex items-center justify-between" onclick="toggleFAQ(this)">
+                        <h3 class="text-lg font-semibold">Can Lexa be customized for specific legal practices?</h3>
+                        <i class="fas fa-chevron-down transition-transform"></i>
+                    </button>
+                    <div class="mt-4 text-muted-foreground hidden">
+                        <p>Yes, Lexa offers extensive customization options including jurisdiction-specific templates, practice area specializations, custom workflows, and integration with existing legal software systems. Our AI learns from your firm's documents and preferences to provide increasingly personalized assistance.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="bg-card border border-border rounded-xl p-6 hover-lift animate-slide-up">
+                    <button class="w-full text-left flex items-center justify-between" onclick="toggleFAQ(this)">
+                        <h3 class="text-lg font-semibold">What support do you provide for implementation?</h3>
+                        <i class="fas fa-chevron-down transition-transform"></i>
+                    </button>
+                    <div class="mt-4 text-muted-foreground hidden">
+                        <p>We provide comprehensive onboarding, training sessions, dedicated customer success managers, and 24/7 technical support. Our team works closely with your organization to ensure smooth integration and maximum adoption of Lexa's capabilities.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 5 -->
+                <div class="bg-card border border-border rounded-xl p-6 hover-lift animate-slide-up">
+                    <button class="w-full text-left flex items-center justify-between" onclick="toggleFAQ(this)">
+                        <h3 class="text-lg font-semibold">How can I get started with Lexa?</h3>
+                        <i class="fas fa-chevron-down transition-transform"></i>
+                    </button>
+                    <div class="mt-4 text-muted-foreground hidden">
+                        <p>Getting started is simple. You can request a personalized demo to see Lexa in action, start with our free trial, or contact our sales team for a customized consultation. We'll help you identify the best plan for your specific legal practice needs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 gradient-primary">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="animate-slide-up">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
+                    Ready to Transform Your Legal Practice?
+                </h2>
+                <p class="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+                    Join thousands of legal professionals who are already using Lexa to streamline their workflow and enhance their practice.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <button class="bg-white text-primary px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-50 transition-all hover-lift">
+                        <i class="fas fa-calendar mr-2"></i>
+                        Request Demo
+                    </button>
+                    <button class="border-2 border-white text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-white hover:text-primary transition-all hover-lift">
+                        <i class="fas fa-rocket mr-2"></i>
+                        Start Free Trial
+                    </button>
+                </div>
+                <p class="text-white/70 text-sm mt-4">No spam. We'll only send you updates about Lexa.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-foreground text-background py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <div class="col-span-1">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                            <i class="fas fa-scale-balanced text-white text-sm"></i>
+                        </div>
+                        <span class="text-xl font-bold">Lexa</span>
+                    </div>
+                    <p class="text-background/70 mb-4">
+                        AI-powered legal intelligence platform designed for modern legal professionals.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-background/70 hover:text-background transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-background/70 hover:text-background transition-colors">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="text-background/70 hover:text-background transition-colors">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Platform</h4>
+                    <ul class="space-y-2 text-background/70">
+                        <li><a href="#" class="hover:text-background transition-colors">Dashboard</a></li>
+                        <li><a href="#" class="hover:text-background transition-colors">AI Assistant</a></li>
+                        <li><a href="#" class="hover:text-background transition-colors">Document Vault</a></li>
+                        <li><a href="#" class="hover:text-background transition-colors">E-Signing</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Resources</h4>
+                    <ul class="space-y-2 text-background/70">
+                        <li><a href="#" class="hover:text-background transition-colors">Documentation</a></li>
+                        <li><a href="#" class="hover:text-background transition-colors">API Reference</a></li>
+                        <li><a href="#" class="hover:text-background transition-colors">Help Center</a></li>
+                        <li><a href="#" class="hover:text-background transition-colors">Legal Templates</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2 text-background/70">
+                        <li><a href="#" class="hover:text-background transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-background transition-colors">Careers</a></li>
+                        <li><a href="#" class="hover:text-background transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-background transition-colors">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-background/20 pt-8 text-center text-background/70">
+                <p>&copy; 2024 Lexa. All rights reserved. Built with ♥ for legal professionals.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for animations
+        (function() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all animated elements
+            document.querySelectorAll('.animate-fade-in, .animate-slide-up').forEach(el => {
+                el.style.animationPlayState = 'paused';
+                observer.observe(el);
+            });
+        })();
+
+        // FAQ Toggle functionality
+        function toggleFAQ(button) {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i');
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                content.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to navigation
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-background/95');
+            } else {
+                nav.classList.remove('bg-background/95');
+            }
+        });
+    </script>
+</body>
+</html>

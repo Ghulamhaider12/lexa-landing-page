@@ -1,0 +1,1359 @@
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lexa - AI-Powered Legal Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                borderRadius: {
+                    lg: "var(--radius)",
+                    md: "calc(var(--radius) - 2px)",
+                    sm: "calc(var(--radius) - 4px)",
+                },
+                colors: {
+                    background: "var(--background)",
+                    foreground: "var(--foreground)",
+                    card: {
+                        DEFAULT: "var(--card)",
+                        foreground: "var(--card-foreground)",
+                    },
+                    popover: {
+                        DEFAULT: "var(--popover)",
+                        foreground: "var(--popover-foreground)",
+                    },
+                    primary: {
+                        DEFAULT: "var(--primary)",
+                        foreground: "var(--primary-foreground)",
+                    },
+                    secondary: {
+                        DEFAULT: "var(--secondary)",
+                        foreground: "var(--secondary-foreground)",
+                    },
+                    muted: {
+                        DEFAULT: "var(--muted)",
+                        foreground: "var(--muted-foreground)",
+                    },
+                    accent: {
+                        DEFAULT: "var(--accent)",
+                        foreground: "var(--accent-foreground)",
+                    },
+                    destructive: {
+                        DEFAULT: "var(--destructive)",
+                        foreground: "var(--destructive-foreground)",
+                    },
+                    border: "var(--border)",
+                    input: "var(--input)",
+                    ring: "var(--ring)",
+                    seagreen: {
+                        50: "hsl(180 25% 95%)",
+                        100: "hsl(180 25% 90%)",
+                        200: "hsl(180 25% 80%)",
+                        300: "hsl(180 25% 70%)",
+                        400: "hsl(174 44% 51%)",
+                        500: "hsl(174 72% 56%)",
+                        600: "hsl(146 50% 36%)",
+                        700: "hsl(146 50% 26%)",
+                        800: "hsl(146 50% 16%)",
+                        900: "hsl(146 50% 6%)",
+                    }
+                },
+                fontFamily: {
+                    sans: ["Inter", "system-ui", "sans-serif"],
+                    arabic: ["Noto Sans Arabic", "system-ui", "sans-serif"],
+                    urdu: ["Noto Nastaliq Urdu", "system-ui", "sans-serif"],
+                    hindi: ["Noto Sans Devanagari", "system-ui", "sans-serif"],
+                },
+                animation: {
+                    'fade-in': 'fadeIn 0.5s ease-in-out',
+                    'slide-up': 'slideUp 0.6s ease-out',
+                    'float': 'float 3s ease-in-out infinite',
+                    'glow': 'glow 2s ease-in-out infinite alternate',
+                    'text-cycle': 'textCycle 8s ease-in-out infinite',
+                    'scroll-x': 'scrollX 30s linear infinite',
+                }
+            },
+        }
+    };
+    </script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Arabic:wght@300;400;500;600;700&family=Noto+Nastaliq+Urdu:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Heroicons -->
+    <script src="https://unpkg.com/heroicons@2.0.18/24/outline/index.js" type="module"></script>
+    
+    <style>
+        :root {
+            --background: hsl(222 84% 4%);
+            --foreground: hsl(210 40% 98%);
+            --card: hsl(222 84% 4%);
+            --card-foreground: hsl(210 40% 98%);
+            --popover: hsl(222 84% 4%);
+            --popover-foreground: hsl(210 40% 98%);
+            --primary: hsl(174 72% 56%);
+            --primary-foreground: hsl(222 84% 4%);
+            --secondary: hsl(217 32% 17%);
+            --secondary-foreground: hsl(210 40% 98%);
+            --muted: hsl(217 32% 17%);
+            --muted-foreground: hsl(215 20% 65%);
+            --accent: hsl(174 44% 51%);
+            --accent-foreground: hsl(210 40% 98%);
+            --destructive: hsl(0 62% 30%);
+            --destructive-foreground: hsl(210 40% 98%);
+            --border: hsl(217 32% 17%);
+            --input: hsl(217 32% 17%);
+            --ring: hsl(174 72% 56%);
+            --radius: 0.75rem;
+        }
+        
+        .light {
+            --background: hsl(0 0% 100%);
+            --foreground: hsl(222 84% 4%);
+            --card: hsl(0 0% 100%);
+            --card-foreground: hsl(222 84% 4%);
+            --popover: hsl(0 0% 100%);
+            --popover-foreground: hsl(222 84% 4%);
+            --primary: hsl(174 72% 56%);
+            --primary-foreground: hsl(0 0% 100%);
+            --secondary: hsl(210 40% 96%);
+            --secondary-foreground: hsl(222 84% 4%);
+            --muted: hsl(210 40% 96%);
+            --muted-foreground: hsl(215 20% 35%);
+            --accent: hsl(174 44% 51%);
+            --accent-foreground: hsl(0 0% 100%);
+            --destructive: hsl(0 84% 60%);
+            --destructive-foreground: hsl(210 40% 98%);
+            --border: hsl(214 32% 91%);
+            --input: hsl(214 32% 91%);
+            --ring: hsl(174 72% 56%);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes glow {
+            from { box-shadow: 0 0 20px hsl(174 72% 56% / 0.3); }
+            to { box-shadow: 0 0 30px hsl(174 72% 56% / 0.6); }
+        }
+        
+        @keyframes scrollX {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, hsl(174 72% 56%), hsl(174 44% 51%));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, hsl(222 84% 4%) 0%, hsl(217 32% 17%) 50%, hsl(174 72% 56% / 0.1) 100%);
+        }
+    </style>
+</head>
+
+<body class="bg-background text-foreground overflow-x-hidden">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-effect border-b border-border">
+        <div class="container mx-auto px-4 lg:px-6">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center font-bold text-primary-foreground">
+                        L
+                    </div>
+                    <span class="text-xl font-bold text-gradient">Lexa</span>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="text-muted-foreground hover:text-foreground transition-colors">Features</a>
+                    <a href="#dashboard" class="text-muted-foreground hover:text-foreground transition-colors">Dashboard</a>
+                    <a href="#testimonials" class="text-muted-foreground hover:text-foreground transition-colors">Testimonials</a>
+                    <a href="#blog" class="text-muted-foreground hover:text-foreground transition-colors">Blog</a>
+                    <a href="#faq" class="text-muted-foreground hover:text-foreground transition-colors">FAQ</a>
+                </div>
+                
+                <!-- CTA Buttons -->
+                <div class="flex items-center space-x-4">
+                    <button class="hidden sm:block px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+                        Sign In
+                    </button>
+                    <button class="px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:bg-primary/90 transition-all duration-300 transform hover:scale-105">
+                        Request Demo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-16 hero-gradient">
+        <!-- Background Animation -->
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute -top-40 -right-40 w-80 h-80 bg-primary/20 rounded-full blur-3xl animate-float"></div>
+            <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-accent/20 rounded-full blur-3xl animate-float" style="animation-delay: 1s;"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 lg:px-6 text-center relative z-10">
+            <div class="max-w-4xl mx-auto animate-slide-up">
+                <!-- Legal Innovation Badge -->
+                <div class="inline-flex items-center px-4 py-2 rounded-full glass-effect mb-8">
+                    <span class="text-sm font-medium text-primary">✨ Legal Innovation</span>
+                </div>
+                
+                <!-- Main Headline with Animated Text -->
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+                    Draft, Share and Store your<br>
+                    contracts in 
+                    <span id="language-text" class="text-gradient relative">
+                        English
+                    </span>
+                </h1>
+                
+                <!-- Subtitle -->
+                <p class="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
+                    Create, translate, sign, and manage contracts autonomously — powered by AI intelligence designed for SMEs and small law firms.
+                </p>
+                
+                <!-- Customer Avatars -->
+                <div class="flex items-center justify-center mb-8">
+                    <div class="flex -space-x-2">
+                        <!-- Customer avatar - Ezra -->
+                        <img src="https://lexa.deployments.otherdev.com/avatars/avatar-1.png" alt="Customer avatar - Ezra" class="w-10 h-10 rounded-full border-2 border-background">
+                        <!-- Customer avatar - Donald -->
+                        <img src="https://lexa.deployments.otherdev.com/avatars/avatar-2.png" alt="Customer avatar - Donald" class="w-10 h-10 rounded-full border-2 border-background">
+                        <!-- Customer avatar - Karim -->
+                        <img src="https://lexa.deployments.otherdev.com/avatars/avatar-3.png" alt="Customer avatar - Karim" class="w-10 h-10 rounded-full border-2 border-background">
+                    </div>
+                    <div class="ml-4 text-left">
+                        <p class="text-sm font-medium">Trusted by 1000's of legal professionals</p>
+                        <p class="text-xs text-muted-foreground">across Asia and the Middle East</p>
+                    </div>
+                </div>
+                
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="px-8 py-4 bg-primary text-primary-foreground rounded-lg font-semibold text-lg hover:bg-primary/90 transition-all duration-300 transform hover:scale-105 animate-glow">
+                        Request Demo
+                    </button>
+                    <button class="px-8 py-4 glass-effect text-foreground rounded-lg font-semibold text-lg hover:bg-white/10 transition-all duration-300 transform hover:scale-105">
+                        Get Started for Free
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company Logos Carousel -->
+    <section class="py-16 bg-muted/30">
+        <div class="container mx-auto px-4 lg:px-6">
+            <p class="text-center text-muted-foreground mb-8 font-medium">Join 4,000+ companies already growing</p>
+            
+            <div class="relative overflow-hidden">
+                <div class="flex animate-scroll-x space-x-12 whitespace-nowrap">
+                    <!-- First set of logos -->
+                    <!-- Google Cloud logo -->
+                    <img src="https://lexa.deployments.otherdev.com/company-logos/google-cloud-3-transparent.webp" alt="Google Cloud" class="h-12 w-auto opacity-60 hover:opacity-100 transition-opacity filter grayscale hover:grayscale-0">
+                    <!-- Microsoft logo -->
+                    <img src="https://lexa.deployments.otherdev.com/company-logos/microsoft-8-transparent.webp" alt="Microsoft" class="h-12 w-auto opacity-60 hover:opacity-100 transition-opacity filter grayscale hover:grayscale-0">
+                    <!-- Bahria University logo -->
+                    <img src="https://lexa.deployments.otherdev.com/company-logos/bahria-university-flat-transparent.webp" alt="Bahria University" class="h-12 w-auto opacity-60 hover:opacity-100 transition-opacity filter grayscale hover:grayscale-0">
+                    <!-- University of Central Punjab logo -->
+                    <img src="https://lexa.deployments.otherdev.com/company-logos/university-central-punjab-transparent.webp" alt="University of Central Punjab" class="h-12 w-auto opacity-60 hover:opacity-100 transition-opacity filter grayscale hover:grayscale-0">
+                    <!-- Sindh Bar Council logo -->
+                    <img src="https://lexa.deployments.otherdev.com/company-logos/sindh-bar-council-transparent.webp" alt="Sindh Bar Council" class="h-12 w-auto opacity-60 hover:opacity-100 transition-opacity filter grayscale hover:grayscale-0">
+                    <!-- Karachi Bar logo -->
+                    <img src="https://lexa.deployments.otherdev.com/company-logos/karachi-bar-transparent.webp" alt="Karachi Bar" class="h-12 w-auto opacity-60 hover:opacity-100 transition-opacity filter grayscale hover:grayscale-0">
+                    <!-- Law Student Council logo -->
+                    <img src="https://lexa.deployments.otherdev.com/company-logos/law-student-council-transparent.webp" alt="Law Student Council" class="h-12 w-auto opacity-60 hover:opacity-100 transition-opacity filter grayscale hover:grayscale-0">
+                    <!-- MITE logo -->
+                    <img src="https://lexa.deployments.otherdev.com/company-logos/logo-mite-resized.webp" alt="MITE" class="h-12 w-auto opacity-60 hover:opacity-100 transition-opacity filter grayscale hover:grayscale-0">
+                    
+                    <!-- Duplicate set for seamless scroll -->
+                    <img src="https://lexa.deployments.otherdev.com/company-logos/google-cloud-3-transparent.webp" alt="Google Cloud" class="h-12 w-auto opacity-60 hover:opacity-100 transition-opacity filter grayscale hover:grayscale-0">
+                    <img src="https://lexa.deployments.otherdev.com/company-logos/microsoft-8-transparent.webp" alt="Microsoft" class="h-12 w-auto opacity-60 hover:opacity-100 transition-opacity filter grayscale hover:grayscale-0">
+                    <img src="https://lexa.deployments.otherdev.com/company-logos/bahria-university-flat-transparent.webp" alt="Bahria University" class="h-12 w-auto opacity-60 hover:opacity-100 transition-opacity filter grayscale hover:grayscale-0">
+                    <img src="https://lexa.deployments.otherdev.com/company-logos/university-central-punjab-transparent.webp" alt="University of Central Punjab" class="h-12 w-auto opacity-60 hover:opacity-100 transition-opacity filter grayscale hover:grayscale-0">
+                    <img src="https://lexa.deployments.otherdev.com/company-logos/sindh-bar-council-transparent.webp" alt="Sindh Bar Council" class="h-12 w-auto opacity-60 hover:opacity-100 transition-opacity filter grayscale hover:grayscale-0">
+                    <img src="https://lexa.deployments.otherdev.com/company-logos/karachi-bar-transparent.webp" alt="Karachi Bar" class="h-12 w-auto opacity-60 hover:opacity-100 transition-opacity filter grayscale hover:grayscale-0">
+                    <img src="https://lexa.deployments.otherdev.com/company-logos/law-student-council-transparent.webp" alt="Law Student Council" class="h-12 w-auto opacity-60 hover:opacity-100 transition-opacity filter grayscale hover:grayscale-0">
+                    <img src="https://lexa.deployments.otherdev.com/company-logos/logo-mite-resized.webp" alt="MITE" class="h-12 w-auto opacity-60 hover:opacity-100 transition-opacity filter grayscale hover:grayscale-0">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lexa Dashboard Recreation -->
+    <section id="dashboard" class="py-24 bg-background">
+        <div class="container mx-auto px-4 lg:px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gradient">
+                    Experience Lexa Dashboard
+                </h2>
+                <p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+                    Manage your legal documents with AI assistance in our intuitive interface
+                </p>
+            </div>
+            
+            <!-- Dashboard Mockup -->
+            <div class="max-w-6xl mx-auto glass-effect rounded-2xl overflow-hidden border border-border">
+                <!-- Dashboard Header -->
+                <div class="bg-primary px-6 py-4">
+                    <h3 class="text-xl font-semibold text-primary-foreground">Welcome back</h3>
+                    <p class="text-primary-foreground/80 text-sm">Manage your legal documents with AI assistance</p>
+                </div>
+                
+                <!-- View Toggle -->
+                <div class="p-6 border-b border-border">
+                    <div class="flex items-center space-x-4">
+                        <button class="flex items-center space-x-2 px-3 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                            </svg>
+                            <span>Grid</span>
+                        </button>
+                        <button class="flex items-center space-x-2 px-3 py-2 text-muted-foreground hover:text-foreground rounded-lg text-sm font-medium transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                            </svg>
+                            <span>List</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Quick Access Section -->
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h4 class="text-lg font-semibold">Quick Access</h4>
+                        <button class="text-primary hover:text-primary/80 text-sm font-medium flex items-center space-x-1">
+                            <span>View all</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <!-- Quick Access Cards -->
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+                        <!-- Contracts -->
+                        <div class="glass-effect p-4 rounded-xl hover:bg-white/10 transition-all duration-300 cursor-pointer group">
+                            <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                                <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                            </div>
+                            <h5 class="font-medium mb-1">Contracts</h5>
+                            <p class="text-xs text-muted-foreground mb-1">Active</p>
+                            <p class="text-xs text-muted-foreground">24 files</p>
+                        </div>
+                        
+                        <!-- Case Files -->
+                        <div class="glass-effect p-4 rounded-xl hover:bg-white/10 transition-all duration-300 cursor-pointer group">
+                            <div class="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                                <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+                                </svg>
+                            </div>
+                            <h5 class="font-medium mb-1">Case Files</h5>
+                            <p class="text-xs text-muted-foreground mb-1">Active</p>
+                            <p class="text-xs text-muted-foreground">18 files</p>
+                        </div>
+                        
+                        <!-- Legal Briefs -->
+                        <div class="glass-effect p-4 rounded-xl hover:bg-white/10 transition-all duration-300 cursor-pointer group">
+                            <div class="w-12 h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                                <svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                                </svg>
+                            </div>
+                            <h5 class="font-medium mb-1">Legal Briefs</h5>
+                            <p class="text-xs text-muted-foreground mb-1">Drafts</p>
+                            <p class="text-xs text-muted-foreground">12 files</p>
+                        </div>
+                        
+                        <!-- Client Docs -->
+                        <div class="glass-effect p-4 rounded-xl hover:bg-white/10 transition-all duration-300 cursor-pointer group">
+                            <div class="w-12 h-12 bg-red-500/20 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                                <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                </svg>
+                            </div>
+                            <h5 class="font-medium mb-1">Client Docs</h5>
+                            <p class="text-xs text-muted-foreground mb-1">Confidential</p>
+                            <p class="text-xs text-muted-foreground">36 files</p>
+                        </div>
+                        
+                        <!-- AI Analysis -->
+                        <div class="glass-effect p-4 rounded-xl hover:bg-white/10 transition-all duration-300 cursor-pointer group">
+                            <div class="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                </svg>
+                            </div>
+                            <h5 class="font-medium mb-1">AI Analysis</h5>
+                            <p class="text-xs text-muted-foreground mb-1">Reports</p>
+                            <p class="text-xs text-muted-foreground">8 files</p>
+                        </div>
+                        
+                        <!-- Templates -->
+                        <div class="glass-effect p-4 rounded-xl hover:bg-white/10 transition-all duration-300 cursor-pointer group">
+                            <div class="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                                <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
+                                </svg>
+                            </div>
+                            <h5 class="font-medium mb-1">Templates</h5>
+                            <p class="text-xs text-muted-foreground mb-1">Legal Forms</p>
+                            <p class="text-xs text-muted-foreground">15 files</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Activity -->
+                    <div class="flex items-center justify-between mb-6">
+                        <h4 class="text-lg font-semibold">Recent Activity</h4>
+                        <button class="text-primary hover:text-primary/80 text-sm font-medium flex items-center space-x-1">
+                            <span>View all</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <!-- Activity Table -->
+                    <div class="glass-effect rounded-xl overflow-hidden">
+                        <table class="w-full">
+                            <thead class="border-b border-border">
+                                <tr class="text-left">
+                                    <th class="p-4 text-sm font-medium text-muted-foreground">Document</th>
+                                    <th class="p-4 text-sm font-medium text-muted-foreground">Reason</th>
+                                    <th class="p-4 text-sm font-medium text-muted-foreground">Owner</th>
+                                    <th class="p-4 text-sm font-medium text-muted-foreground">Location</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-border hover:bg-white/5 transition-colors">
+                                    <td class="p-4">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-8 h-8 bg-red-500/20 rounded flex items-center justify-center">
+                                                <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                                </svg>
+                                            </div>
+                                            <div>
+                                                <p class="font-medium">Contract_Amendment_2024.pdf</p>
+                                                <p class="text-xs text-muted-foreground">2 hours ago</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="p-4">
+                                        <span class="px-2 py-1 bg-blue-500/20 text-blue-400 rounded-full text-xs">Recently accessed</span>
+                                    </td>
+                                    <td class="p-4 text-sm">John Smith</td>
+                                    <td class="p-4 text-sm text-muted-foreground">Contracts</td>
+                                </tr>
+                                <tr class="hover:bg-white/5 transition-colors">
+                                    <td class="p-4">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-8 h-8 bg-blue-500/20 rounded flex items-center justify-center">
+                                                <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                                </svg>
+                                            </div>
+                                            <div>
+                                                <p class="font-medium">Case_Brief_Johnson_vs_State.docx</p>
+                                                <p class="text-xs text-muted-foreground">1 day ago</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="p-4">
+                                        <span class="px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-xs">Shared with you</span>
+                                    </td>
+                                    <td class="p-4 text-sm">Sarah Wilson</td>
+                                    <td class="p-4 text-sm text-muted-foreground">Case Files</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-24 bg-muted/30">
+        <div class="container mx-auto px-4 lg:px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gradient">
+                    Supercharge Team Productivity
+                </h2>
+                <p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+                    Keep your team focused and productive as they collaborate on building and shipping products swiftly
+                </p>
+            </div>
+            
+            <!-- Feature Grid -->
+            <div class="grid lg:grid-cols-2 gap-12 items-center mb-16">
+                <!-- 24/7 Consultancy -->
+                <div class="space-y-6">
+                    <div class="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium">
+                        Communication
+                    </div>
+                    <h3 class="text-2xl md:text-3xl font-bold">24/7 consultancy</h3>
+                    <p class="text-lg text-muted-foreground leading-relaxed">
+                        Our advanced AI operates 24/7, providing immediate legal assistance when traditional legal services are unavailable. Unlike conventional law firms with limited hours, Lexa never sleeps — offering real-time contract reviews, drafting assistance, and legal queries at 2 AM just as effectively as during business hours.
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center space-x-3">
+                            <div class="w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                                <svg class="w-3 h-3 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <span>24/7 AI Legal Support</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <div class="w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                                <svg class="w-3 h-3 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <span>Multi-Language Contracts</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <div class="w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                                <svg class="w-3 h-3 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <span>Regional Compliance Engine</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <div class="w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                                <svg class="w-3 h-3 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <span>Cross-Border Templates</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="relative">
+                    <!-- Real-Time Messaging illustration -->
+                    <img src="https://lexa.deployments.otherdev.com/media/customer-support.webp" alt="Real-Time Messaging" class="rounded-2xl shadow-2xl w-full h-auto animate-float">
+                </div>
+            </div>
+            
+            <!-- Secure Vault Management -->
+            <div class="grid lg:grid-cols-2 gap-12 items-center mb-16">
+                <div class="relative order-2 lg:order-1">
+                    <!-- Secure Communication Channels illustration -->
+                    <img src="https://lexa.deployments.otherdev.com/media/card-1.webp" alt="Secure Vault Management" class="rounded-2xl shadow-2xl w-full h-auto animate-float" style="animation-delay: 1s;">
+                </div>
+                
+                <div class="space-y-6 order-1 lg:order-2">
+                    <h3 class="text-2xl md:text-3xl font-bold">Secure Vault Management System</h3>
+                    <p class="text-lg text-muted-foreground leading-relaxed">
+                        Our encrypted vault system provides a secure, centralized repository for all your legal documents. Unlike traditional storage methods with security vulnerabilities, Lexa offers bank-level encryption, granular access controls, and comprehensive version history—ensuring your sensitive contracts are protected from unauthorized access while remaining instantly retrievable whenever needed.
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center space-x-3">
+                            <div class="w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                                <svg class="w-3 h-3 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <span>End-to-end encryption</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <div class="w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                                <svg class="w-3 h-3 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <span>Secure file sharing and storage</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <div class="w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                                <svg class="w-3 h-3 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <span>Compliance with global security standards</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Advanced E-Signing -->
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <h3 class="text-2xl md:text-3xl font-bold">Advanced E-Signing Capabilities</h3>
+                    <p class="text-lg text-muted-foreground leading-relaxed">
+                        Lexa's robust e-signing system offers legally binding signatures across multiple jurisdictions. With customizable signature workflows, biometric verification, and tamper-proof audit trails, our platform ensures every signed document maintains its integrity and legal validity. Users can track signature status in real-time and automate reminders for pending signatures.
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center space-x-3">
+                            <div class="w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                                <svg class="w-3 h-3 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <span>Multi-party signing with sequential workflows</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <div class="w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                                <svg class="w-3 h-3 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <span>Legal validity across 30+ jurisdictions</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <div class="w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                                <svg class="w-3 h-3 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <span>Automated signature reminders and notifications</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="relative">
+                    <!-- Document collaboration illustration -->
+                    <img src="https://lexa.deployments.otherdev.com/media/document-collaboration-cropped.webp" alt="Document Collaboration" class="rounded-2xl shadow-2xl w-full h-auto animate-float" style="animation-delay: 2s;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Productivity Features -->
+    <section class="py-24 bg-background">
+        <div class="container mx-auto px-4 lg:px-6">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+                    Productivity
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gradient">
+                    Supercharge Team Productivity
+                </h2>
+                <p class="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+                    Keep your team focused and productive as they collaborate on building and shipping products swiftly.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-all duration-300 transform hover:scale-105">
+                        Start Free Trial
+                    </button>
+                    <button class="px-8 py-3 glass-effect text-foreground rounded-lg font-semibold hover:bg-white/10 transition-all duration-300 transform hover:scale-105">
+                        Schedule Demo
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Feature Cards Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- AI-Powered Contract Creation -->
+                <div class="glass-effect p-6 rounded-2xl hover:bg-white/10 transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">AI-Powered Contract Creation</h3>
+                    <p class="text-muted-foreground">Craft binding legal documents instantly using pre-designed templates and smart prompts tailored for your jurisdiction.</p>
+                </div>
+                
+                <!-- Form-Based Drafting -->
+                <div class="glass-effect p-6 rounded-2xl hover:bg-white/10 transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Form-Based Drafting with Contextual Input</h3>
+                    <p class="text-muted-foreground">Upload any contract template, and Lexa turns it into a guided, fillable form—no legal expertise needed.</p>
+                </div>
+                
+                <!-- Live Translation -->
+                <div class="glass-effect p-6 rounded-2xl hover:bg-white/10 transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Live Translation & Jargon Decoder</h3>
+                    <p class="text-muted-foreground">Translate entire contracts in real-time and get clear, plain-English explanations of complex legal terms for better understanding.</p>
+                </div>
+                
+                <!-- Secure E-Signing -->
+                <div class="glass-effect p-6 rounded-2xl hover:bg-white/10 transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Secure E-Signing & Sharing</h3>
+                    <p class="text-muted-foreground">E-sign documents swiftly and share them securely with built-in encryption, audit logs, and file tracking.</p>
+                </div>
+                
+                <!-- Voice & Meeting Intelligence -->
+                <div class="glass-effect p-6 rounded-2xl hover:bg-white/10 transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-yellow-500/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Voice & Meeting Intelligence</h3>
+                    <p class="text-muted-foreground">Lexa listens in on negotiations, provides real-time legal advice, flags risks, and suggests clauses live—just like a legal co-pilot.</p>
+                </div>
+                
+                <!-- Legal Research -->
+                <div class="glass-effect p-6 rounded-2xl hover:bg-white/10 transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-2">Legal Research & Judgment Library</h3>
+                    <p class="text-muted-foreground">Access over 200K digitized judgments and 10K+ legal documents instantly to inform your drafting and review process.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-24 bg-muted/30">
+        <div class="container mx-auto px-4 lg:px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gradient">
+                    What our clients say
+                </h2>
+                <p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+                    Trusted by legal professionals across Asia and the Middle East
+                </p>
+            </div>
+            
+            <!-- Testimonials Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="glass-effect p-6 rounded-2xl hover:bg-white/10 transition-all duration-300">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <img src="https://lexa.deployments.otherdev.com/avatars/avatar-1.png" alt="Arslana Nawaz" class="w-12 h-12 rounded-full">
+                        <div>
+                            <h4 class="font-semibold">Arslana Nawaz</h4>
+                            <p class="text-sm text-muted-foreground">Adv. High Court, PinPoint</p>
+                        </div>
+                    </div>
+                    <p class="text-muted-foreground italic">
+                        "Lexa has been a game-changer for my legal practice. Its AI-powered insights and extensive database of judgments have saved me countless hours of research, allowing me to focus more on client needs. Highly recommend!"
+                    </p>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="glass-effect p-6 rounded-2xl hover:bg-white/10 transition-all duration-300">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <img src="https://lexa.deployments.otherdev.com/avatars/avatar-2.png" alt="Adeel Nawaz" class="w-12 h-12 rounded-full">
+                        <div>
+                            <h4 class="font-semibold">Adeel Nawaz</h4>
+                            <p class="text-sm text-muted-foreground">Law Student, Hues</p>
+                        </div>
+                    </div>
+                    <p class="text-muted-foreground italic">
+                        "As a law student, Lexa's MCQ platform has been invaluable in preparing for exams. It's like having a personal tutor guiding me through the complexities of legal principles. A must-have for anyone serious about their legal studies."
+                    </p>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="glass-effect p-6 rounded-2xl hover:bg-white/10 transition-all duration-300">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <img src="https://lexa.deployments.otherdev.com/avatars/avatar-7.png" alt="Zara Ahmed" class="w-12 h-12 rounded-full">
+                        <div>
+                            <h4 class="font-semibold">Zara Ahmed</h4>
+                            <p class="text-sm text-muted-foreground">Legal Consultant, Greenish</p>
+                        </div>
+                    </div>
+                    <p class="text-muted-foreground italic">
+                        "Lexa's drafting feature is a lifesaver in my hectic schedule. It streamlines the process of creating legal documents, ensuring accuracy and compliance. Couldn't imagine managing my caseload without it."
+                    </p>
+                </div>
+                
+                <!-- Testimonial 4 -->
+                <div class="glass-effect p-6 rounded-2xl hover:bg-white/10 transition-all duration-300">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <img src="https://lexa.deployments.otherdev.com/avatars/avatar-1.png" alt="Arsla Sidique" class="w-12 h-12 rounded-full">
+                        <div>
+                            <h4 class="font-semibold">Arsla Sidique</h4>
+                            <p class="text-sm text-muted-foreground">Corporate Lawyer, Hues</p>
+                        </div>
+                    </div>
+                    <p class="text-muted-foreground italic">
+                        "Impressed by Lexa's quick responses to my legal queries. Its AI-driven interface delivers clear and authoritative answers, making it my go-to tool for navigating legal complexities with confidence. Highly recommend!"
+                    </p>
+                </div>
+                
+                <!-- Testimonial 5 -->
+                <div class="glass-effect p-6 rounded-2xl hover:bg-white/10 transition-all duration-300">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <img src="https://lexa.deployments.otherdev.com/avatars/avatar-4.png" alt="Fatima Akhtar" class="w-12 h-12 rounded-full">
+                        <div>
+                            <h4 class="font-semibold">Fatima Akhtar</h4>
+                            <p class="text-sm text-muted-foreground">Adv. High Court, Hues</p>
+                        </div>
+                    </div>
+                    <p class="text-muted-foreground italic">
+                        "Lexa has transformed how I approach legal research. Its comprehensive database of precedents and analyses provides me with critical insights for formulating winning legal strategies. Exceptional tool!"
+                    </p>
+                </div>
+                
+                <!-- Testimonial 6 -->
+                <div class="glass-effect p-6 rounded-2xl hover:bg-white/10 transition-all duration-300">
+                    <div class="flex items-center space-x-4 mb-4">
+                        <img src="https://lexa.deployments.otherdev.com/avatars/avatar-3.png" alt="Ahsan Haq" class="w-12 h-12 rounded-full">
+                        <div>
+                            <h4 class="font-semibold">Ahsan Haq</h4>
+                            <p class="text-sm text-muted-foreground">Adv. High Court, Hues</p>
+                        </div>
+                    </div>
+                    <p class="text-muted-foreground italic">
+                        "Lexa is more than just a chatbot—it's a visionary tool reshaping legal consultation in Pakistan. Its accessibility and affordability make it an indispensable asset for lawyers and law students alike. Truly revolutionary!"
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="py-24 bg-background">
+        <div class="container mx-auto px-4 lg:px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gradient">
+                    Latest from our Blog
+                </h2>
+                <p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+                    Stay updated with the latest insights, legal tech trends, and expert opinions
+                </p>
+            </div>
+            
+            <!-- Blog Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Blog Post 1 -->
+                <article class="glass-effect rounded-2xl overflow-hidden hover:bg-white/10 transition-all duration-300 group">
+                    <!-- AI and legal technology image -->
+                    <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400" alt="AI and legal technology" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+                    <div class="p-6">
+                        <div class="flex items-center space-x-2 mb-3">
+                            <span class="px-2 py-1 bg-primary/20 text-primary text-xs rounded-full">AI & Law</span>
+                            <span class="text-xs text-muted-foreground">Dec 15, 2024</span>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2 group-hover:text-primary transition-colors">
+                            The Future of AI in Legal Practice
+                        </h3>
+                        <p class="text-muted-foreground text-sm mb-4">
+                            Exploring how artificial intelligence is revolutionizing legal document analysis and contract management...
+                        </p>
+                        <a href="#" class="text-primary hover:text-primary/80 text-sm font-medium flex items-center space-x-1">
+                            <span>Read More</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+                
+                <!-- Blog Post 2 -->
+                <article class="glass-effect rounded-2xl overflow-hidden hover:bg-white/10 transition-all duration-300 group">
+                    <!-- Legal documents and compliance -->
+                    <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400" alt="Legal documents and compliance" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+                    <div class="p-6">
+                        <div class="flex items-center space-x-2 mb-3">
+                            <span class="px-2 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full">Compliance</span>
+                            <span class="text-xs text-muted-foreground">Dec 12, 2024</span>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2 group-hover:text-primary transition-colors">
+                            Understanding Cross-Border Legal Compliance
+                        </h3>
+                        <p class="text-muted-foreground text-sm mb-4">
+                            A comprehensive guide to navigating international legal requirements for modern businesses...
+                        </p>
+                        <a href="#" class="text-primary hover:text-primary/80 text-sm font-medium flex items-center space-x-1">
+                            <span>Read More</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+                
+                <!-- Blog Post 3 -->
+                <article class="glass-effect rounded-2xl overflow-hidden hover:bg-white/10 transition-all duration-300 group">
+                    <!-- Digital signature and contract signing -->
+                    <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400" alt="Digital signature and contract signing" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+                    <div class="p-6">
+                        <div class="flex items-center space-x-2 mb-3">
+                            <span class="px-2 py-1 bg-green-500/20 text-green-400 text-xs rounded-full">E-Signing</span>
+                            <span class="text-xs text-muted-foreground">Dec 10, 2024</span>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2 group-hover:text-primary transition-colors">
+                            Digital Signatures: Legal Validity & Best Practices
+                        </h3>
+                        <p class="text-muted-foreground text-sm mb-4">
+                            Everything you need to know about electronic signatures and their legal standing worldwide...
+                        </p>
+                        <a href="#" class="text-primary hover:text-primary/80 text-sm font-medium flex items-center space-x-1">
+                            <span>Read More</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+            </div>
+            
+            <div class="text-center mt-12">
+                <button class="px-8 py-3 glass-effect text-foreground rounded-lg font-semibold hover:bg-white/10 transition-all duration-300 transform hover:scale-105">
+                    View All Articles
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Client Interviews Section -->
+    <section class="py-24 bg-muted/30">
+        <div class="container mx-auto px-4 lg:px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gradient">
+                    Client Success Stories
+                </h2>
+                <p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+                    Hear directly from our clients about their transformative experience with Lexa
+                </p>
+            </div>
+            
+            <!-- Interview Video Grid -->
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Interview 1 -->
+                <div class="glass-effect rounded-2xl overflow-hidden hover:bg-white/10 transition-all duration-300 group">
+                    <div class="relative">
+                        <!-- Legal firm office with modern technology -->
+                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400" alt="Legal firm office with modern technology" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button class="w-16 h-16 bg-primary rounded-full flex items-center justify-center animate-pulse">
+                                <svg class="w-6 h-6 text-primary-foreground ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-semibold mb-2">Leading Law Firm Streamlines Operations</h3>
+                        <p class="text-muted-foreground text-sm mb-4">
+                            Watch how a top-tier law firm reduced document processing time by 70% using Lexa's AI-powered contract management system.
+                        </p>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
+                                <span class="text-primary font-semibold text-sm">JS</span>
+                            </div>
+                            <div>
+                                <p class="font-medium text-sm">John Smith</p>
+                                <p class="text-xs text-muted-foreground">Managing Partner</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Interview 2 -->
+                <div class="glass-effect rounded-2xl overflow-hidden hover:bg-white/10 transition-all duration-300 group">
+                    <div class="relative">
+                        <!-- Professional woman in modern office -->
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400" alt="Professional woman in modern office" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button class="w-16 h-16 bg-primary rounded-full flex items-center justify-center animate-pulse">
+                                <svg class="w-6 h-6 text-primary-foreground ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-semibold mb-2">Solo Practitioner's Digital Transformation</h3>
+                        <p class="text-muted-foreground text-sm mb-4">
+                            Discover how a solo legal practitioner expanded her practice capabilities using Lexa's comprehensive AI legal assistant.
+                        </p>
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-primary/20 rounded-full flex items-center justify-center">
+                                <span class="text-primary font-semibold text-sm">SA</span>
+                            </div>
+                            <div>
+                                <p class="font-medium text-sm">Sarah Ahmed</p>
+                                <p class="text-xs text-muted-foreground">Legal Consultant</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <button class="px-8 py-3 glass-effect text-foreground rounded-lg font-semibold hover:bg-white/10 transition-all duration-300 transform hover:scale-105">
+                    View All Interviews
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-24 bg-background">
+        <div class="container mx-auto px-4 lg:px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gradient">
+                    Frequently Asked Questions
+                </h2>
+                <p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+                    Advice and answers from our team
+                </p>
+            </div>
+            
+            <!-- FAQ Grid -->
+            <div class="max-w-3xl mx-auto space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="glass-effect rounded-2xl overflow-hidden">
+                    <button class="w-full p-6 text-left flex items-center justify-between hover:bg-white/5 transition-colors" onclick="toggleFAQ(1)">
+                        <span class="font-semibold">What industries can benefit from your AI solutions?</span>
+                        <svg id="faq-icon-1" class="w-5 h-5 text-primary transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div id="faq-content-1" class="hidden px-6 pb-6">
+                        <p class="text-muted-foreground">Our AI solutions are applicable across various industries, including healthcare, finance, retail, and manufacturing. We specialize in legal technology for law firms, SMEs, and corporate legal departments.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 2 -->
+                <div class="glass-effect rounded-2xl overflow-hidden">
+                    <button class="w-full p-6 text-left flex items-center justify-between hover:bg-white/5 transition-colors" onclick="toggleFAQ(2)">
+                        <span class="font-semibold">How do you ensure data privacy and security?</span>
+                        <svg id="faq-icon-2" class="w-5 h-5 text-primary transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div id="faq-content-2" class="hidden px-6 pb-6">
+                        <p class="text-muted-foreground">We adhere to strict data privacy regulations and implement robust security measures to protect sensitive information. Our platform uses end-to-end encryption, secure authentication, and complies with global security standards including GDPR and SOC 2.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 3 -->
+                <div class="glass-effect rounded-2xl overflow-hidden">
+                    <button class="w-full p-6 text-left flex items-center justify-between hover:bg-white/5 transition-colors" onclick="toggleFAQ(3)">
+                        <span class="font-semibold">Can your AI solutions be customized to fit specific business needs?</span>
+                        <svg id="faq-icon-3" class="w-5 h-5 text-primary transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div id="faq-content-3" class="hidden px-6 pb-6">
+                        <p class="text-muted-foreground">Absolutely! Our AI solutions are highly customizable. We can tailor contract templates, compliance workflows, and document analysis parameters to match your specific industry requirements and business processes.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 4 -->
+                <div class="glass-effect rounded-2xl overflow-hidden">
+                    <button class="w-full p-6 text-left flex items-center justify-between hover:bg-white/5 transition-colors" onclick="toggleFAQ(4)">
+                        <span class="font-semibold">Do you provide ongoing support and maintenance for your AI solutions?</span>
+                        <svg id="faq-icon-4" class="w-5 h-5 text-primary transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div id="faq-content-4" class="hidden px-6 pb-6">
+                        <p class="text-muted-foreground">Absolutely, we offer comprehensive support and maintenance services to ensure the smooth operation of our AI solutions. This includes 24/7 technical support, regular updates, training sessions, and proactive monitoring.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 5 -->
+                <div class="glass-effect rounded-2xl overflow-hidden">
+                    <button class="w-full p-6 text-left flex items-center justify-between hover:bg-white/5 transition-colors" onclick="toggleFAQ(5)">
+                        <span class="font-semibold">How can I get started with your AI solutions?</span>
+                        <svg id="faq-icon-5" class="w-5 h-5 text-primary transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div id="faq-content-5" class="hidden px-6 pb-6">
+                        <p class="text-muted-foreground">Simply reach out to our team to schedule a consultation and explore how our AI solutions can benefit your business. We offer free demos and can create a customized implementation plan for your organization.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Request Section -->
+    <section class="py-24 bg-muted/30">
+        <div class="container mx-auto px-4 lg:px-6">
+            <div class="max-w-2xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gradient">
+                    Request a Demo
+                </h2>
+                <p class="text-xl text-muted-foreground mb-8">
+                    Get a personalized demo of Lexa and see how it can transform your legal workflow.
+                </p>
+                
+                <!-- Demo Form -->
+                <form class="glass-effect p-8 rounded-2xl text-left space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="firstName" class="block text-sm font-medium mb-2">First Name</label>
+                            <input type="text" id="firstName" name="firstName" class="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" required>
+                        </div>
+                        <div>
+                            <label for="lastName" class="block text-sm font-medium mb-2">Last Name</label>
+                            <input type="text" id="lastName" name="lastName" class="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" required>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="email" class="block text-sm font-medium mb-2">Email Address</label>
+                        <input type="email" id="email" name="email" class="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" required>
+                    </div>
+                    
+                    <div>
+                        <label for="company" class="block text-sm font-medium mb-2">Company</label>
+                        <input type="text" id="company" name="company" class="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" required>
+                    </div>
+                    
+                    <div>
+                        <label for="role" class="block text-sm font-medium mb-2">Role</label>
+                        <select id="role" name="role" class="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors" required>
+                            <option value="">Select your role</option>
+                            <option value="lawyer">Lawyer</option>
+                            <option value="legal-counsel">Legal Counsel</option>
+                            <option value="law-student">Law Student</option>
+                            <option value="paralegal">Paralegal</option>
+                            <option value="business-owner">Business Owner</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="message" class="block text-sm font-medium mb-2">Tell us about your needs</label>
+                        <textarea id="message" name="message" rows="4" class="w-full px-4 py-3 bg-background border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors resize-none" placeholder="Describe your current challenges and how Lexa might help..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="w-full px-8 py-4 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-all duration-300 transform hover:scale-105">
+                        Request Demo
+                    </button>
+                    
+                    <p class="text-xs text-muted-foreground text-center">
+                        No spam. We'll only send you updates about Lexa.
+                    </p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-background border-t border-border py-16">
+        <div class="container mx-auto px-4 lg:px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <!-- Brand -->
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center font-bold text-primary-foreground">
+                            L
+                        </div>
+                        <span class="text-xl font-bold text-gradient">Lexa</span>
+                    </div>
+                    <p class="text-muted-foreground">
+                        AI-powered legal intelligence for modern law firms and businesses.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-muted-foreground hover:text-primary transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-muted-foreground hover:text-primary transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-muted-foreground hover:text-primary transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.097.118.112.221.083.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.746-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001 12.017.001z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Platform -->
+                <div>
+                    <h4 class="font-semibold mb-4">Platform</h4>
+                    <ul class="space-y-2 text-muted-foreground">
+                        <li><a href="#" class="hover:text-primary transition-colors">Assistant</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Vault</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Knowledge</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Workflows</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Word Add-In</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Solutions -->
+                <div>
+                    <h4 class="font-semibold mb-4">Solutions</h4>
+                    <ul class="space-y-2 text-muted-foreground">
+                        <li><a href="#" class="hover:text-primary transition-colors">Innovation</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">In-House</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Transactional</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Litigation</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Compliance</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Company -->
+                <div>
+                    <h4 class="font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2 text-muted-foreground">
+                        <li><a href="#" class="hover:text-primary transition-colors">About</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Careers</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Security</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Privacy</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-muted-foreground text-sm">
+                    © 2024 Lexa. All rights reserved.
+                </p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-muted-foreground hover:text-primary text-sm transition-colors">Terms</a>
+                    <a href="#" class="text-muted-foreground hover:text-primary text-sm transition-colors">Privacy</a>
+                    <a href="#" class="text-muted-foreground hover:text-primary text-sm transition-colors">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Language text cycling animation
+        (function() {
+            const languages = [
+                { text: 'English', lang: 'en', font: 'font-sans' },
+                { text: 'العربية', lang: 'ar', font: 'font-arabic' },
+                { text: 'اردو', lang: 'ur', font: 'font-urdu' },
+                { text: 'हिंदी', lang: 'hi', font: 'font-hindi' }
+            ];
+            
+            let currentIndex = 0;
+            const languageElement = document.getElementById('language-text');
+            
+            function updateLanguage() {
+                // Fade out
+                languageElement.style.opacity = '0';
+                
+                setTimeout(() => {
+                    // Update text and font
+                    const current = languages[currentIndex];
+                    languageElement.textContent = current.text;
+                    languageElement.className = `text-gradient relative ${current.font}`;
+                    
+                    // Fade in
+                    languageElement.style.opacity = '1';
+                    
+                    // Move to next language
+                    currentIndex = (currentIndex + 1) % languages.length;
+                }, 300); // Half second for fade transition
+            }
+            
+            // Start the animation
+            languageElement.style.transition = 'opacity 0.3s ease-in-out';
+            setInterval(updateLanguage, 2000); // Change every 2 seconds
+        })();
+
+        // FAQ Toggle Function
+        function toggleFAQ(index) {
+            const content = document.getElementById(`faq-content-${index}`);
+            const icon = document.getElementById(`faq-icon-${index}`);
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                content.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Form submission handling
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // TODO: Implement form submission logic
+            alert('Demo request submitted! We will contact you soon.');
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections for scroll animations
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
